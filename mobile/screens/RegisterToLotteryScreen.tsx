@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { appendRegisteredLotteryIds } from '../hooks/useRegisteredLoterries';
+import { appendRegisteredLotteryIds } from '../hooks/useRegisteredLotteries';
 import { stackHeaderOptions } from '../navigation/headerOptions';
 import type { RootStackParamList } from '../types';
 import * as LotteryService from '../services/lottery';

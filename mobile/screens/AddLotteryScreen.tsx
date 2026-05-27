@@ -94,7 +94,7 @@ export function AddLotteryScreen() {
         initialValues={{ name: '', prize: '' }}
         validate={validateLottery}
         validateOnMount
-        onSubmit={async (values) => {
+        onSubmit={async (values, { setSubmitting }) => {
           try {
             await createNewLottery({
               name: values.name.trim(),
@@ -103,6 +103,8 @@ export function AddLotteryScreen() {
             navigation.goBack();
           } catch {
             // error surfaced via hook
+          } finally {
+            setSubmitting(false);
           }
         }}
       >
@@ -114,6 +116,7 @@ export function AddLotteryScreen() {
           errors,
           touched,
           isValid,
+          isSubmitting,
         }) => (
           <View>
             <TextInput
@@ -122,7 +125,7 @@ export function AddLotteryScreen() {
               value={values.name}
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
-              editable={!loading}
+              editable={!loading && !isSubmitting}
               style={styles.input}
             />
             {touched.name && errors.name ? (
@@ -134,7 +137,7 @@ export function AddLotteryScreen() {
               value={values.prize}
               onChangeText={handleChange('prize')}
               onBlur={handleBlur('prize')}
-              editable={!loading}
+              editable={!loading && !isSubmitting}
               style={styles.input}
             />
             {touched.prize && errors.prize ? (
@@ -144,14 +147,16 @@ export function AddLotteryScreen() {
             <Pressable
               style={[
                 styles.button,
-                loading || !isValid ? styles.buttonDisabled : null,
+                loading || isSubmitting || !isValid
+                  ? styles.buttonDisabled
+                  : null,
               ]}
               onPress={() => {
                 handleSubmit();
               }}
-              disabled={loading || !isValid}
+              disabled={loading || isSubmitting || !isValid}
             >
-              {loading ? (
+              {loading || isSubmitting ? (
                 <ActivityIndicator color="#fff" />
               ) : (
                 <Text style={styles.buttonLabel}>Add</Text>

@@ -32,7 +32,7 @@ export async function createNewLottery({
   }
 }
 
-export async function getLottieries() {
+export async function getLotteries() {
   try {
     const response = await fetch(`${API_URL}/lotteries`);
 

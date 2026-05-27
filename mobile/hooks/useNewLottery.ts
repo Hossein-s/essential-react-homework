@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Lottery } from '../types';
 import * as LotteryService from '../services/lottery';
 
@@ -6,23 +6,36 @@ export function useNewLottery() {
   const [lottery, setLottery] = useState<Lottery>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
+  const inFlightRef = useRef(false);
 
-  const createNewLottery = (lotteryData: { name: string; prize: string }) => {
-    setError(undefined);
-    setLoading(true);
+  const createNewLottery = useCallback(
+    (lotteryData: { name: string; prize: string }) => {
+      if (inFlightRef.current) {
+        return Promise.reject(
+          new Error('A lottery is already being created'),
+        );
+      }
 
-    return LotteryService.createNewLottery(lotteryData)
-      .then((lottery) => {
-        setLoading(false);
-        setLottery(lottery);
-      })
-      .catch((e: Error) => {
-        setLoading(false);
-        setError(e.message);
+      inFlightRef.current = true;
+      setError(undefined);
+      setLoading(true);
 
-        throw e;
-      });
-  };
+      return LotteryService.createNewLottery(lotteryData)
+        .then((created) => {
+          setLottery(created);
+          return created;
+        })
+        .catch((e: Error) => {
+          setError(e.message);
+          throw e;
+        })
+        .finally(() => {
+          inFlightRef.current = false;
+          setLoading(false);
+        });
+    },
+    [],
+  );
 
   return {
     data: lottery,

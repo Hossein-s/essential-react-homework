@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { Fab } from '../components/Fab';
 import useLotteries from '../hooks/useLotteries';
-import { useRegisteredLoterries } from '../hooks/useRegisteredLoterries';
+import { useRegisteredLotteries } from '../hooks/useRegisteredLotteries';
 import { stackHeaderOptions } from '../navigation/headerOptions';
 import type { RootStackParamList } from '../types';
 import { Lottery } from '../types';
@@ -36,7 +36,7 @@ export function HomeScreen() {
   const {
     data: registeredLotteryIds,
     getRegisteredLotteries,
-  } = useRegisteredLoterries();
+  } = useRegisteredLotteries();
 
   const lotteryRegistered = route.params?.lotteryRegistered;
 
@@ -189,6 +189,7 @@ export function HomeScreen() {
         </>
       )}
       <Fab
+        accessibilityLabel="Add lottery"
         onPress={() => {
           navigation.navigate('AddLottery');
         }}

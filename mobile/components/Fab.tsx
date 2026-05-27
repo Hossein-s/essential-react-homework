@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -16,14 +17,25 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
   onPress: () => void;
+  accessibilityLabel: string;
   style?: StyleProp<ViewStyle>;
 };
 
-export function Fab({ children, onPress, style }: Props) {
+export function Fab({
+  children,
+  onPress,
+  accessibilityLabel,
+  style,
+}: Props) {
   return (
-    <Pressable style={[styles.container, style]} onPress={onPress}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      style={[styles.container, style]}
+      onPress={onPress}
+    >
       {children}
     </Pressable>
   );
