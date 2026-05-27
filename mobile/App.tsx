@@ -6,28 +6,34 @@ import { AddLotteryScreen } from './screens/AddLotteryScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { RegisterToLotteryScreen } from './screens/RegisterToLotteryScreen';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+function RootNavigator() {
+  const Stack = createNativeStackNavigator<RootStackParamList>();
+
+  return (
+    <Stack.Navigator screenOptions={stackHeaderOptions}>
+      <Stack.Group>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="AddLottery" component={AddLotteryScreen} />
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          ...stackHeaderOptions,
+          presentation: 'modal',
+        }}
+      >
+        <Stack.Screen
+          name="RegisterToLottery"
+          component={RegisterToLotteryScreen}
+        />
+      </Stack.Group>
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={stackHeaderOptions}>
-        <Stack.Group>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="AddLottery" component={AddLotteryScreen} />
-        </Stack.Group>
-        <Stack.Group
-          screenOptions={{
-            ...stackHeaderOptions,
-            presentation: 'modal',
-          }}
-        >
-          <Stack.Screen
-            name="RegisterToLottery"
-            component={RegisterToLotteryScreen}
-          />
-        </Stack.Group>
-      </Stack.Navigator>
+      <RootNavigator />
     </NavigationContainer>
   );
 }

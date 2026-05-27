@@ -7,15 +7,9 @@ import {
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Fab } from '../components/Fab';
+import { SearchInput } from '../components/SearchInput';
 import useLotteries from '../hooks/useLotteries';
 import { useRegisteredLotteries } from '../hooks/useRegisteredLotteries';
 import { stackHeaderOptions } from '../navigation/headerOptions';
@@ -112,13 +106,7 @@ export function HomeScreen() {
         <Ionicons name="sparkles" size={34} color="black" />
       ) : (
         <>
-          <View style={styles.searchContainer}>
-            <TextInput
-              placeholder="Search"
-              style={styles.searchInput}
-              onChangeText={setSearch}
-            />
-          </View>
+          <SearchInput value={search} onChangeText={setSearch} />
           <FlatList
             style={styles.list}
             data={filteredLotteries}
@@ -214,18 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: 'bold',
     marginRight: 4,
-  },
-  searchContainer: {
-    padding: 16,
-  },
-  searchInput: {
-    width: '100%',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#999',
-    padding: 12,
-    marginBottom: 12,
-    fontSize: 16,
-    borderRadius: 8,
   },
   list: {
     flex: 1,

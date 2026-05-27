@@ -1,6 +1,5 @@
+import { getApiUrl } from '../config/apiUrl';
 import { Lottery } from '../types';
-
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export async function createNewLottery({
   name,
@@ -10,7 +9,7 @@ export async function createNewLottery({
   prize: string;
 }): Promise<Lottery> {
   try {
-    const response = await fetch(`${API_URL}/lotteries`, {
+    const response = await fetch(`${getApiUrl()}/lotteries`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +33,7 @@ export async function createNewLottery({
 
 export async function getLotteries() {
   try {
-    const response = await fetch(`${API_URL}/lotteries`);
+    const response = await fetch(`${getApiUrl()}/lotteries`);
 
     const body = (await response.json()) as Array<Lottery>;
 
@@ -54,7 +53,7 @@ export async function registerToLottery({
   lotteryId: string;
 }) {
   try {
-    const response = await fetch(`${API_URL}/register`, {
+    const response = await fetch(`${getApiUrl()}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
