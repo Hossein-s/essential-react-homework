@@ -1,0 +1,12 @@
+appId: dev.hosi.reactnativetraining
+---
+- launchApp:
+    clearState: true
+- tapOn: "Add lottery"
+- tapOn: "Name"
+- inputText: "Lottery X"
+- tapOn: "Prize"
+- inputText: "G Wagon"
+- tapOn: "Add"
+- assertVisible: "Lottery X"
+- assertVisible: "G Wagon"

@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Lottery } from '../types';
 import * as LotteryService from '../services/lottery';
+import { toErrorMessage } from '../utils/toErrorMessage';
 
 export function useNewLottery() {
   const [lottery, setLottery] = useState<Lottery>();
@@ -25,8 +26,8 @@ export function useNewLottery() {
           setLottery(created);
           return created;
         })
-        .catch((e: Error) => {
-          setError(e.message);
+        .catch((e: unknown) => {
+          setError(toErrorMessage(e));
           throw e;
         })
         .finally(() => {

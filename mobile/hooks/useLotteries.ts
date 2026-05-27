@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Lottery } from '../types';
 import * as LotteryService from '../services/lottery';
+import { toErrorMessage } from '../utils/toErrorMessage';
 
 export default function useLotteries() {
   const [lotteries, setLotteries] = useState<Array<Lottery>>([]);
@@ -20,11 +21,11 @@ export default function useLotteries() {
         }
         setLotteries(fetched);
       })
-      .catch((e: Error) => {
+      .catch((e: unknown) => {
         if (fetchId !== fetchIdRef.current) {
           return;
         }
-        setError(e.message);
+        setError(toErrorMessage(e));
       })
       .finally(() => {
         if (fetchId !== fetchIdRef.current) {
